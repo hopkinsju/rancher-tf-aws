@@ -8,12 +8,12 @@ and after that,
 if you want to create a cluster, all you need to do is run: `terraform apply` and to destroy the cluster just run `terraform destroy`
 You will get following resources created:
 - VPC
-- NAT instance
+- NAT gateway
 - Public Subnet
 - Private subnet
 - Security groups
 - Your custom keypair
-- EC2 instances on ubuntu 14.04
+- EC2 instances running RancherOS
 
 ### Pre requisites
 
@@ -25,22 +25,9 @@ You will get following resources created:
 ### One time setup steps
 
 * Clone this repo in an empty folder 
+* Create a new ssh keypair via ssh-keygen
 * Copy your public and private keys in ssh folder 
-* Create a file called terraform.tfvars in rancher-tf-aws folder and add following content to it 
-~~~
-access_key = "YOUR_AWS_ACCESS_KEY"
-secret_key = "YOUR_AWS_SECRET_ACCESS_KEY"
-# Select among following: us-west-1 us-east-1 ap-southeast-1 eu-central-1 , 
-# we can add more regions later or if you want to send pull requests, you are welcome.
-region = "YOUR_REGION"
-# Add contents of your public key below
-aws_public_key = "CONTENTS_OF_YOUR_PUBLIC_KEY" 
-aws_private_key_name = "NAME_FOR_YOUR_KEYPAIR"
-#
-# The default k8s project name is "k8srancher", if you want to overwrite this name,
-# uncomment the line below and use your own name
-#rs_proj_name = "YOUR_OWN_PROJECT_NAME"
-~~~
+* Customize terraform.tfvars.SAMPLE and rename to terraform.tfvars
 
 ### Steps to create kubernetes on rancher 
 
