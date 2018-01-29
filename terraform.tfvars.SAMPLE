@@ -1,0 +1,15 @@
+# You will need to add the key/secret for a substantially permitted user as many different resource types are created. 
+# It would be nice to document the actual, minimum policy
+access_key = ""
+secret_key = ""
+region = "us-east-1"
+# Add contents of your public key below
+# Ok, you will want to create an ssh key pair locally here. This is to say, you will not create it in AWS.
+# Use ssh-keygen to create a key specifically for this purpose, place the private key in the ssh directory
+# and the public key text in the variable below.
+aws_public_key = "paste the content of your public key here. Yes, the whole huge blob of text." 
+aws_private_key_name = "id_rsa"
+k8s_node_count = "2"
+# The default k8s project name is "k8srancher", if you want to overwrite this name,
+# uncomment the line below and use your own name
+#rs_proj_name = "YOUR_OWN_PROJECT_NAME"

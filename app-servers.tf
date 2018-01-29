@@ -25,7 +25,7 @@ resource "aws_instance" "rancher-master" {
   }
   connection {
     type = "ssh"
-    user = "ubuntu"
+    user = "rancher"
     private_key = "${file("ssh/${aws_key_pair.deployer.key_name}")}"
     timeout = "2m"
     agent = false
@@ -57,10 +57,11 @@ resource "aws_instance" "rancher-node" {
   tags = { 
     Name = "aws-k8s-node.${count.index + 1}"
     Type = "rancher-k8s-node"
+    BillingAccount = "devops"
   }
   connection {
     type = "ssh"
-    user = "ubuntu"
+    user = "rancher"
     private_key = "${file("ssh/${aws_key_pair.deployer.key_name}")}"
     timeout = "2m"
     agent = false

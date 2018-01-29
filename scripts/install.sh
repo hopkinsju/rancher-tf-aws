@@ -8,34 +8,35 @@ RANCHER_PROJECT_ID=$3;
 #
 # Installing Docker first
 #
-apt-get update
-apt-get install -y apt-transport-https ca-certificates
-apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
-apt-get update
-apt-cache policy docker-engine
-apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
-apt-get update
-apt-get install -y docker-engine=1.12.3-0~trusty
+# apt-get update
+# apt-get install -y apt-transport-https ca-certificates
+# apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+# echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
+# apt-get update
+# apt-cache policy docker-engine
+# apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+# apt-get update
+# apt-get install -y docker-engine=1.12.3-0~trusty
 
-service docker start
-docker run hello-world
+#service docker start
+#sudo docker run hello-world
+sleep 30
 if [[ "$1" == "0" ]]; then
 #
 # Start rancher server
 #
-    docker run -d --restart=unless-stopped -p 8080:8080 --name rancherserver rancher/server
-    docker logs rancherserver
+    sudo docker run -d --restart=unless-stopped -p 8080:8080 rancher/server
+    sudo docker logs rancherserver
 #
 # Once server is up, run API via container to create project and generate token
 #
-    docker run -e "RANCHER_SERVER_IP=$2" -e "STEP=all" -e "RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID}" harshals/rsapi
+    sudo docker run -e "RANCHER_SERVER_IP=$2" -e "STEP=all" -e "RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID}" harshals/rsapi
 
 else
 #
 # Run rsapi container in agent mode to generate token and run it
 #
-    cmd=$(docker run -e "RANCHER_SERVER_IP=$2" -e "STEP=6" -e "RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID}" harshals/rsapi | tail -n 1);
+    cmd=$(sudo docker run -e "RANCHER_SERVER_IP=$2" -e "STEP=6" -e "RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID}" harshals/rsapi | tail -n 1);
 	if [[ "$(echo $cmd | cut -c 1-11)" == "sudo docker" ]]; then
 	    eval $cmd;
 	else

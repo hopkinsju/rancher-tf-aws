@@ -5,3 +5,4 @@
 ssh/harshals*
 *id_rsa*
 *.tfvars
+.terraform
